@@ -11,7 +11,7 @@
             <el-input v-model="form.captcha" placeholder="验证码"></el-input>
           </el-col>
           <el-col :span="8">
-            <img class="captcha" :src="captcha" alt="验证码">
+            <img class="captcha" @click="refreshCaptcha" :src="captcha" alt="验证码" title="点击可刷新">
           </el-col>
         </el-row>
       </el-form-item>
@@ -43,15 +43,20 @@ export default {
       }
     }
   },
-  async created() {
-    const res = await this.$axios.$get('/api/user/info')
-    console.log(res)
-  },
   methods: {
+    refreshCaptcha() {
+      this.captcha = `/api/user/captcha?_=${Date.now()}`
+    },
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          alert('ok')
+          this.$http.post('/user/create', this.form).then(res => {
+            if (res.code !== 0) {
+              this.$message.error(res.message)
+            } else {
+              this.$message.success(res.message)
+            }
+          })
         }
       })
     }
