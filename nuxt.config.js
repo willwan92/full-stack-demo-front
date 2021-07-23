@@ -39,8 +39,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/proxy'
+    '@nuxtjs/axios'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -49,13 +48,12 @@ export default {
   },
 
   proxy: {
-    '/api': {
-      target: 'http://127.0.0.1:7001',
+    '/api/': {
+      target: 'http://127.0.0.1:7001', 
       pathRewrite: {
-        '^/api': ''
-      }
-    },
-    secure:false
+        '^/api/': ''
+      } 
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
