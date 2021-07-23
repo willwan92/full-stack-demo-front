@@ -5,6 +5,15 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" placeholder="邮箱"></el-input>
       </el-form-item>
+      <el-form-item label="昵称" prop="nickname">
+        <el-input v-model="form.nickname" placeholder="邮箱"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password" type="password" placeholder="邮箱"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="rePassword">
+        <el-input v-model="form.rePassword" type="password" placeholder="邮箱"></el-input>
+      </el-form-item>
       <el-form-item label="验证码" prop="captcha">
         <el-row>
           <el-col :span="16">
@@ -24,6 +33,7 @@
 </template>
 
 <script>
+import md5 from 'md5'
 export default {
   layout: 'blank',
   data() {
@@ -31,6 +41,9 @@ export default {
       captcha: '/api/user/captcha',
       form: {
         email: 'will',
+        nickname: 'wanchong',
+        password: 'wanchong',
+        rePassword: 'wanchong',
         captcha: ''
       },
       rules: {
@@ -50,9 +63,16 @@ export default {
     onSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$http.post('/user/create', this.form).then(res => {
+          const params = {
+            email: this.form.email,
+            nickname: this.form.nickname,
+            password: md5(this.form.email),
+            captcha: this.form.captcha,
+          }
+          this.$http.post('/user/create', params).then(res => {
             if (res.code !== 0) {
               this.$message.error(res.message)
+              this.refreshCaptcha()
             } else {
               this.$message.success(res.message)
             }
