@@ -40,8 +40,8 @@ export default {
     return {
       captcha: '/api/user/captcha',
       form: {
-        email: 'will',
-        nickname: 'wanchong',
+        email: 'wilson3cy@163.com',
+        nickname: 'will',
         password: 'wanchong',
         rePassword: 'wanchong',
         captcha: ''
@@ -66,7 +66,7 @@ export default {
           const params = {
             email: this.form.email,
             nickname: this.form.nickname,
-            password: md5(this.form.email),
+            password: md5(this.form.password),
             captcha: this.form.captcha,
           }
           this.$http.post('/user/create', params).then(res => {
